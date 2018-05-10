@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var obj = {
+      test: 'hello'
+    }
+    var initVal = 'hell'
+    Object.defineProperty(obj, 'test', {
+      configurable: true,
+      enumerable: true,
+      get: function () {
+        console.log('触发get方法')
+        // return obj.test
+        return initVal
+      },
+      set: function (newVal) {
+        console.log('触发set方法')
+        // obj.test = newVal
+        initVal = newVal
+      }
+    })
+
+    obj.test = '999'
+
+    console.log(obj.test)
+  </script>
+</body>
+</html>
