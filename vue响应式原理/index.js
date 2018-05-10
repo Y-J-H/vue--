@@ -7,14 +7,21 @@ function observe(value, cb) {
 
 function defineReactive(obj, key, val, cb) {
   let that = this
+  let tempVal = val
+  console.log(tempVal)
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: () => {
-      // console.log('get方法');
-      return val
+      return tempVal
     },
-    set: () => {
+    set: (newVal) => {
+      // console.log(newVal)
+      // console.log(val)
+      // console.log(that);
+      // obj.text = newVal    这种操作会造成栈溢出
+      tempVal = newVal
+      // console.log(obj)
       cb.call(that)
     }
   })
@@ -36,13 +43,11 @@ class Vue {
       Object.defineProperty(that, key, {
         configurable: true,
         enumerable: true,
-        get: function proxyGetter () {
+        get: function () {
           return that._data[key]
         },
-        set: function proxySetter (val) {
-          console.log(that);
-          
-          that._data[key] = val;
+        set: function (val) {
+          that._data[key] = val;         // 这里我理解为并没有赋上值,仅仅是触发了set方法
         }
       })
     })
